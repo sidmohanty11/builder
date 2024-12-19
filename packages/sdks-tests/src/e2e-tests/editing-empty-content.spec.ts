@@ -14,12 +14,8 @@ test.describe('Editing empty content', () => {
     page,
     sdk,
     basePort,
-    packageName,
   }) => {
-    test.skip(packageName !== 'nuxt');
-
     await launchEmbedderAndWaitForSdk({
-      // special page added only in nuxt e2e that doesn't pass `content`
       path: '/preview-and-edit-content-empty',
       page,
       sdk,
