@@ -59,8 +59,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <builder-render-content
-    v-bind="props"
-    :customComponents="registeredComponents"
-  />
+  <div v-if="props">
+    <builder-render-content
+      v-bind="props"
+      :customComponents="registeredComponents"
+    />
+  </div>
+  <div v-else>Content not Found</div>
 </template>

@@ -56,5 +56,8 @@ const { data: props } = await useAsyncData('builderData', async () => {
 </script>
 
 <template>
-  <Content v-bind="props" :customComponents="REGISTERED_COMPONENTS" />
+  <div v-if="props">
+    <Content v-bind="props" :customComponents="REGISTERED_COMPONENTS" />
+  </div>
+  <div v-else>Content not Found</div>
 </template>
