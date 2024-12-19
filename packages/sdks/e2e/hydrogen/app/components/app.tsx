@@ -59,9 +59,5 @@ export default function BuilderPage() {
   builderProps.customComponents = [builderBlockWithClassNameCustomComponent];
   const nonce = useNonce();
 
-  return builderProps?.content ? (
-    <Content nonce={nonce} {...builderProps} />
-  ) : (
-    <div>Content Not Found.</div>
-  );
+  return <Content nonce={nonce} {...builderProps} />;
 }

@@ -20,23 +20,17 @@ interface BuilderProps {
 @Component({
   selector: 'catch-all-route',
   template: `
-    <ng-container *ngIf="content; else notFound">
-      <builder-content
-        [model]="model"
-        [content]="content"
-        [apiKey]="apiKey"
-        [trustedHosts]="trustedHosts"
-        [canTrack]="canTrack"
-        [customComponents]="customComponents"
-        [data]="data"
-        [apiHost]="apiHost"
-        [locale]="locale"
-      ></builder-content>
-    </ng-container>
-
-    <ng-template #notFound>
-      <div>404 - Content not found</div>
-    </ng-template>
+    <builder-content
+      [model]="model"
+      [content]="content"
+      [apiKey]="apiKey"
+      [trustedHosts]="trustedHosts"
+      [canTrack]="canTrack"
+      [customComponents]="customComponents"
+      [data]="data"
+      [apiHost]="apiHost"
+      [locale]="locale"
+    ></builder-content>
   `,
 })
 export class CatchAllComponent {

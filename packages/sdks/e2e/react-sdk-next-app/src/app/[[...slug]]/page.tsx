@@ -67,7 +67,7 @@ export default async function Page(props: PageProps) {
     fetchOneEntry,
   });
 
-  if (!builderProps.content) {
+  if (!builderProps) {
     return (
       <>
         <h1>404</h1>
