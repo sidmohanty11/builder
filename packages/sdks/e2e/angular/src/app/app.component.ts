@@ -37,7 +37,7 @@ interface BuilderProps {
       ></builder-content>
     </ng-container>
     <ng-template #notFound>
-      <p>Not found</p>
+      <div>404 - Content not found</div>
     </ng-template>
   `,
 })
