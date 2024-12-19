@@ -196,7 +196,7 @@ export const PAGES: Record<string, Page> = {
   '/localization-locale-not-passed': { content: LOCALIZATION_WITHOUT_LOCALE_PROP },
   '/localization-subfields': { content: LOCALIZATION_SUBFIELDS },
   '/get-content-with-symbol': { content: CONTENT_WITHOUT_SYMBOLS, target: 'gen1' },
-  '/preview-and-edit-content-empty': { content: undefined as unknown as BuilderContent },
+  '/preview-and-edit-content-empty': { content: null as unknown as BuilderContent },
 } as const;
 
 export type Path = keyof typeof PAGES;
@@ -347,11 +347,12 @@ export const getProps = async (args: {
     ...extraProps,
   };
 
-  const content = _content
-    ? _processContentResult
-      ? (await _processContentResult(props, { results: [_content] }))[0]
-      : _content
-    : undefined;
+  const content =
+    _content === null
+      ? null
+      : _processContentResult
+        ? (await _processContentResult(props, { results: [_content] }))[0]
+        : _content;
 
   return { ...props, content } as any;
 };

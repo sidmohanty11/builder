@@ -57,7 +57,7 @@ export default function Page() {
 
   builderProps.customComponents = [builderBlockWithClassNameCustomComponent];
 
-  return builderProps?.content ? (
+  return builderProps ? (
     <Content {...builderProps} />
   ) : (
     <div>Content Not Found.</div>
