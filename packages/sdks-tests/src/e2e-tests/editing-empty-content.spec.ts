@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { test } from '../helpers/index.js';
+import { excludeGen1, test } from '../helpers/index.js';
 import { launchEmbedderAndWaitForSdk, sendContentUpdateMessage } from '../helpers/visual-editor.js';
 import { CONTENT } from '../specs/text-block.js';
 
@@ -15,6 +15,8 @@ test.describe('Editing empty content', () => {
     sdk,
     basePort,
   }) => {
+    test.skip(excludeGen1(sdk));
+
     await launchEmbedderAndWaitForSdk({
       path: '/preview-and-edit-content-empty',
       page,
