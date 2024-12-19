@@ -23,17 +23,22 @@ interface BuilderProps {
 @Component({
   selector: 'app-root',
   template: `
-    <builder-content
-      [model]="model"
-      [content]="content"
-      [apiKey]="apiKey"
-      [trustedHosts]="trustedHosts"
-      [canTrack]="canTrack"
-      [customComponents]="customComponents"
-      [data]="data"
-      [apiHost]="apiHost"
-      [locale]="locale"
-    ></builder-content>
+    <ng-container *ngIf="content || content === null; else notFound">
+      <builder-content
+        [model]="model"
+        [content]="content"
+        [apiKey]="apiKey"
+        [trustedHosts]="trustedHosts"
+        [canTrack]="canTrack"
+        [customComponents]="customComponents"
+        [data]="data"
+        [apiHost]="apiHost"
+        [locale]="locale"
+      ></builder-content>
+    </ng-container>
+    <ng-template #notFound>
+      <p>Not found</p>
+    </ng-template>
   `,
 })
 export class AppComponent {
