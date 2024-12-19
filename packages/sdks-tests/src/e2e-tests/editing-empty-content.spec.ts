@@ -6,7 +6,7 @@ import { CONTENT } from '../specs/text-block.js';
 test.describe('Editing empty content', () => {
   /**
    * We are ignoring hydration warnings here because this occurs in a specific scenario where we are either editing or previewing
-   * and `content` provided is `null`. In this case, the `div` for `EnableEditor` is only attached on the client.
+   * and `content` prop is not provided. In this case, the `div` for `EnableEditor` is only attached on the client.
    */
   test.use({ ignoreHydrationErrors: true });
 

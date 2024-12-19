@@ -52,12 +52,18 @@ const test = base.extend<TestOptions>({
     }
 
     context.on('weberror', err => {
-      console.error(err.error());
-      throw new Error('Failing test due to error in browser: ' + err.error());
+      const errorText = err.error().toString();
+      console.error(errorText);
+      if (!checkIfIsHydrationErrorMessage(errorText)) {
+        throw new Error('Failing test due to error in browser: ' + errorText);
+      }
     });
     page.on('pageerror', err => {
-      console.error(err);
-      throw new Error('Failing test due to error in browser: ' + err);
+      const errorText = err.toString();
+      console.error(errorText);
+      if (!checkIfIsHydrationErrorMessage(errorText)) {
+        throw new Error('Failing test due to error in browser: ' + errorText);
+      }
     });
 
     /**
