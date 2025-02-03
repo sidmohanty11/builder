@@ -32,6 +32,7 @@ export type BlocksWrapperProps = {
   children?: any;
 
   classNameProp?: string;
+  extraAttributesForBlocksWrapper?: Record<string, any>;
 };
 
 export default function BlocksWrapper(props: BlocksWrapperProps) {
@@ -139,6 +140,7 @@ export default function BlocksWrapper(props: BlocksWrapperProps) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onKeyPress={(event: any) => state.onClick()}
       {...props.BlocksWrapperProps}
+      {...props.extraAttributesForBlocksWrapper}
     >
       {props.children}
     </props.BlocksWrapper>
