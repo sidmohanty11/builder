@@ -116,6 +116,13 @@ export default function PersonalizationContainer(
   onMount(() => {
     state.shouldResetVariants = true;
 
+    useTarget({
+      qwik: () => {
+        state.userAttributes = userAttributesService.getUserAttributes();
+      },
+      default: () => {},
+    });
+
     const unsub = userAttributesService.subscribeOnUserAttributesChange(
       (attrs) => {
         state.userAttributes = attrs;

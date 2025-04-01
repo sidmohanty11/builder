@@ -49,15 +49,15 @@ export default component$(() => {
   // Specify the content model, pass the fetched content,
   // and provide the Public API Key
 
-  useOnDocument(
-    'qinit',
-    $(() => {
-      console.log('here222!');
-      setClientUserAttributes({
-        device: 'desktop',
-      });
-    })
-  );
+  // useOnDocument(
+  //   'qinit',
+  //   $(() => {
+  //     console.log('here222!');
+  //     setClientUserAttributes({
+  //       device: 'desktop',
+  //     });
+  //   })
+  // );
 
   return (
     <Content
