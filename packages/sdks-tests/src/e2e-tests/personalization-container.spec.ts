@@ -174,17 +174,21 @@ test.describe.only('Personalization Container', () => {
   }) => {
     // here we are checking specifically for winning variant content by setting the user attributes
     test.skip(
-      !['react-sdk-next-15-app', 'gen1-next15-app', 'nuxt', 'sveltekit'].includes(packageName)
+      !['react-sdk-next-15-app', 'gen1-next15-app', 'nuxt', 'sveltekit', 'qwik-city'].includes(
+        packageName
+      )
     );
     await page.goto('/variant-containers');
 
     // content 1
-    await expect(page.getByText('My tablet content')).toBeVisible();
-    await expect(page.getByText('My mobile content updated')).not.toBeVisible();
-    await expect(page.getByText('My default content')).not.toBeVisible();
+    await expect(page.getByText('My tablet content').locator('visible=true')).toBeVisible();
+    await expect(
+      page.getByText('My mobile content updated').locator('visible=true')
+    ).not.toBeVisible();
+    await expect(page.getByText('My default content').locator('visible=true')).not.toBeVisible();
 
     // content 2 - this has no targeting set, so the first variant should be the winning variant
-    await expect(page.getByText('Tablet content 2')).toBeVisible();
+    await expect(page.getByText('Tablet content 2').locator('visible=true')).toBeVisible();
   });
 
   test('only default variants are ssred on the server', async ({ browser, packageName, sdk }) => {

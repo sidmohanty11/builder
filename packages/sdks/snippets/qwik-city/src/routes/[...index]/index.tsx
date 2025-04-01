@@ -52,7 +52,6 @@ export default component$(() => {
   useOnDocument(
     'qinit',
     $(() => {
-      console.log('here222!');
       setClientUserAttributes({
         device: 'desktop',
       });

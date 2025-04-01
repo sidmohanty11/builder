@@ -1,6 +1,10 @@
-import { component$ } from '@builder.io/qwik';
+import { $, component$, useOnDocument } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
-import { Content, _processContentResult } from '@builder.io/sdk-qwik';
+import {
+  Content,
+  _processContentResult,
+  setClientUserAttributes,
+} from '@builder.io/sdk-qwik';
 import { getProps } from '@sdk/tests';
 import BuilderBlockWithClassName from '~/components/BuilderBlockWithClassName';
 
@@ -59,6 +63,19 @@ export const useBuilderContentLoader = routeLoader$(async (event) => {
 
 export default component$(() => {
   const contentProps = useBuilderContentLoader();
+
+  useOnDocument(
+    'qinit',
+    $(() => {
+      if (window.location.pathname === '/variant-containers/') {
+        console.log('setting device to tablet');
+        setClientUserAttributes({
+          device: 'tablet',
+        });
+      }
+    })
+  );
+
   return (
     <>
       {contentProps.value.addTopPadding && (
