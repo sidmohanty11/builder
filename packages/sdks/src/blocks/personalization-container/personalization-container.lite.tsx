@@ -37,6 +37,9 @@ useMetadata({
   rsc: {
     componentType: 'client',
   },
+  qwik: {
+    setUseStoreFirst: true,
+  },
 });
 
 export default function PersonalizationContainer(

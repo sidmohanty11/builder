@@ -5,7 +5,7 @@ import { launchEmbedderAndWaitForSdk } from '../helpers/visual-editor.js';
 import type { Sdk } from '../helpers/sdk.js';
 
 const SELECTOR = 'div[builder-content-id]';
-const SDKS_SUPPORTING_PERSONALIZATION = ['react', 'vue', 'svelte'] as Sdk[];
+const SDKS_SUPPORTING_PERSONALIZATION = ['react', 'vue', 'svelte', 'qwik'] as Sdk[];
 
 const createContextWithCookies = async ({
   cookies,
@@ -64,7 +64,7 @@ const initializeUserAttributes = async (
   return { page };
 };
 
-test.describe('Personalization Container', () => {
+test.describe.only('Personalization Container', () => {
   test.describe('entire page', () => {
     const TEXTS = {
       DEFAULT_CONTENT: 'Default',

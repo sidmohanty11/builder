@@ -50,6 +50,7 @@ export const SDKS_SUPPORTING_PERSONALIZATION = [
   'react',
   'vue',
   'svelte',
+  'qwik',
 ] as Target[];
 
 /**
@@ -61,7 +62,11 @@ export const SDKS_SUPPORTING_PERSONALIZATION = [
  * This helps us to avoid flicker and show the correct / winning variant initially and then once we've hydrated we show the winning variant
  * and keep a track of the cookies to update to the correct variant dynamically when the cookie updates.
  */
-export const SDKS_REQUIRING_RESET_APPROACH = ['vue', 'svelte'] as Target[];
+export const SDKS_REQUIRING_RESET_APPROACH = [
+  'vue',
+  'svelte',
+  'qwik',
+] as Target[];
 
 export function checkShouldRenderVariants(
   variants: PersonalizationContainerProps['variants'],
@@ -122,6 +127,7 @@ export function getBlocksToRender({
   // If we're on the browser, check if there's a winning variant
   if (isBrowser()) {
     const winningVariant = filteredVariants?.[0];
+    console.log('winningVariant', winningVariant);
     if (winningVariant && variants) {
       const variantIndex = variants.indexOf(winningVariant);
       if (variantIndex !== -1) {
