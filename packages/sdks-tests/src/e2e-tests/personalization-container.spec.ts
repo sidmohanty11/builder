@@ -4,7 +4,6 @@ import { isSSRFramework, test } from '../helpers/index.js';
 import { launchEmbedderAndWaitForSdk } from '../helpers/visual-editor.js';
 import type { Sdk } from '../helpers/sdk.js';
 
-const SELECTOR = 'div[builder-content-id]';
 const SDKS_SUPPORTING_PERSONALIZATION = ['react', 'vue', 'svelte', 'qwik'] as Sdk[];
 
 const createContextWithCookies = async ({
@@ -101,8 +100,8 @@ test.describe.only('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_A })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_B })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).not.toBeVisible();
+        await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).not.toBeVisible();
       });
 
       test(`#${i}/${TRIES}: Render variant A w/ SSR`, async ({
@@ -130,8 +129,10 @@ test.describe.only('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_B })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.DEFAULT_CONTENT })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).not.toBeVisible();
+        await expect(
+          page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')
+        ).not.toBeVisible();
       });
 
       test(`#${i}/${TRIES}: Render variant B w/ SSR`, async ({
@@ -159,8 +160,10 @@ test.describe.only('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_A })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.DEFAULT_CONTENT })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).not.toBeVisible();
+        await expect(
+          page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')
+        ).not.toBeVisible();
       });
     }
   });
@@ -198,8 +201,8 @@ test.describe.only('Personalization Container', () => {
 
     await page.goto('/variant-containers');
 
-    await expect(page.getByText('My default content')).toBeVisible();
-    await expect(page.getByText('Default content 2')).toBeVisible();
+    await expect(page.getByText('My default content').locator('visible=true')).toBeVisible();
+    await expect(page.getByText('Default content 2').locator('visible=true')).toBeVisible();
   });
 
   test('root style attribute is correctly set', async ({ page, sdk, packageName }) => {
@@ -247,7 +250,9 @@ test.describe.only('Personalization Container', () => {
           basePort,
         });
 
-        await expect(page.frameLocator('iframe').getByText(expectedTexts[i])).toBeVisible();
+        await expect(
+          page.frameLocator('iframe').getByText(expectedTexts[i]).locator('visible=true')
+        ).toBeVisible();
       }
     });
   });
