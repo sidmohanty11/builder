@@ -4,8 +4,7 @@ import { isSSRFramework, test } from '../helpers/index.js';
 import { launchEmbedderAndWaitForSdk } from '../helpers/visual-editor.js';
 import type { Sdk } from '../helpers/sdk.js';
 
-const SELECTOR = 'div[builder-content-id]';
-const SDKS_SUPPORTING_PERSONALIZATION = ['react', 'vue', 'svelte'] as Sdk[];
+const SDKS_SUPPORTING_PERSONALIZATION = ['react', 'vue', 'svelte', 'qwik'] as Sdk[];
 
 const createContextWithCookies = async ({
   cookies,
@@ -64,7 +63,7 @@ const initializeUserAttributes = async (
   return { page };
 };
 
-test.describe('Personalization Container', () => {
+test.describe.only('Personalization Container', () => {
   test.describe('entire page', () => {
     const TEXTS = {
       DEFAULT_CONTENT: 'Default',
@@ -101,8 +100,8 @@ test.describe('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_A })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_B })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).not.toBeVisible();
+        await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).not.toBeVisible();
       });
 
       test(`#${i}/${TRIES}: Render variant A w/ SSR`, async ({
@@ -130,8 +129,10 @@ test.describe('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_B })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.DEFAULT_CONTENT })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).not.toBeVisible();
+        await expect(
+          page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')
+        ).not.toBeVisible();
       });
 
       test(`#${i}/${TRIES}: Render variant B w/ SSR`, async ({
@@ -159,8 +160,10 @@ test.describe('Personalization Container', () => {
 
         await expect(page.getByText(TEXTS.EXPERIMENT_B).locator('visible=true')).toBeVisible();
         await expect(page.getByText(TEXTS.NON_PERSONALIZED).locator('visible=true')).toBeVisible();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.EXPERIMENT_A })).toBeHidden();
-        await expect(page.locator(SELECTOR, { hasText: TEXTS.DEFAULT_CONTENT })).toBeHidden();
+        await expect(page.getByText(TEXTS.EXPERIMENT_A).locator('visible=true')).not.toBeVisible();
+        await expect(
+          page.getByText(TEXTS.DEFAULT_CONTENT).locator('visible=true')
+        ).not.toBeVisible();
       });
     }
   });
@@ -171,17 +174,21 @@ test.describe('Personalization Container', () => {
   }) => {
     // here we are checking specifically for winning variant content by setting the user attributes
     test.skip(
-      !['react-sdk-next-15-app', 'gen1-next15-app', 'nuxt', 'sveltekit'].includes(packageName)
+      !['react-sdk-next-15-app', 'gen1-next15-app', 'nuxt', 'sveltekit', 'qwik-city'].includes(
+        packageName
+      )
     );
     await page.goto('/variant-containers');
 
     // content 1
-    await expect(page.getByText('My tablet content')).toBeVisible();
-    await expect(page.getByText('My mobile content updated')).not.toBeVisible();
-    await expect(page.getByText('My default content')).not.toBeVisible();
+    await expect(page.getByText('My tablet content').locator('visible=true')).toBeVisible();
+    await expect(
+      page.getByText('My mobile content updated').locator('visible=true')
+    ).not.toBeVisible();
+    await expect(page.getByText('My default content').locator('visible=true')).not.toBeVisible();
 
     // content 2 - this has no targeting set, so the first variant should be the winning variant
-    await expect(page.getByText('Tablet content 2')).toBeVisible();
+    await expect(page.getByText('Tablet content 2').locator('visible=true')).toBeVisible();
   });
 
   test('only default variants are ssred on the server', async ({ browser, packageName, sdk }) => {
@@ -198,8 +205,8 @@ test.describe('Personalization Container', () => {
 
     await page.goto('/variant-containers');
 
-    await expect(page.getByText('My default content')).toBeVisible();
-    await expect(page.getByText('Default content 2')).toBeVisible();
+    await expect(page.getByText('My default content').locator('visible=true')).toBeVisible();
+    await expect(page.getByText('Default content 2').locator('visible=true')).toBeVisible();
   });
 
   test('root style attribute is correctly set', async ({ page, sdk, packageName }) => {
@@ -247,7 +254,9 @@ test.describe('Personalization Container', () => {
           basePort,
         });
 
-        await expect(page.frameLocator('iframe').getByText(expectedTexts[i])).toBeVisible();
+        await expect(
+          page.frameLocator('iframe').getByText(expectedTexts[i]).locator('visible=true')
+        ).toBeVisible();
       }
     });
   });

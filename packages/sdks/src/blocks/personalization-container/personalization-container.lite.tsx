@@ -37,6 +37,9 @@ useMetadata({
   rsc: {
     componentType: 'client',
   },
+  qwik: {
+    setUseStoreFirst: true,
+  },
 });
 
 export default function PersonalizationContainer(
@@ -112,6 +115,13 @@ export default function PersonalizationContainer(
 
   onMount(() => {
     state.shouldResetVariants = true;
+
+    useTarget({
+      qwik: () => {
+        state.userAttributes = userAttributesService.getUserAttributes();
+      },
+      default: () => {},
+    });
 
     const unsub = userAttributesService.subscribeOnUserAttributesChange(
       (attrs) => {
